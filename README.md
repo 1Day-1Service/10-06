@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔨 두더지 잡기 게임 (Whack-A-Mole)
 
-## Getting Started
+클래식 아케이드 게임을 웹으로 재현! 빠른 반응속도와 집중력을 테스트하는 중독성 있는 게임입니다.
 
-First, run the development server:
+## ✨ 주요 기능
 
+### 🎮 게임 플레이
+- 9개의 구멍에서 랜덤하게 등장하는 두더지
+- 마우스 클릭으로 두더지 타격
+- 30초 / 60초 타임어택 모드
+- 점수 및 콤보 시스템
+
+### ⚙️ 난이도 설정
+- 🟢 **쉬움**: 두더지 2초 노출, 느린 속도
+- 🟡 **보통**: 두더지 1.5초 노출, 중간 속도  
+- 🔴 **어려움**: 두더지 1초 노출, 빠른 속도
+- 💀 **지옥**: 두더지 0.7초 노출, 매우 빠른 속도
+
+### 💯 점수 시스템
+- 기본 점수: 두더지 1마리 = 10점
+- 콤보 보너스: 연속 타격 시 점수 배율 증가 (최대 3배)
+- 미스 페널티: 빈 구멍 클릭 시 -5점
+- ⭐ 골든 두더지: 10% 확률 등장, 3배 점수
+
+### 🏆 랭킹 시스템
+- 로컬 최고 기록 저장
+- 난이도별 TOP 10 랭킹
+- 닉네임 입력 기능
+- 개인 통계 (점수, 명중률, 최고 콤보)
+
+## 🛠️ 기술 스택
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn UI
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+
+## 🚀 시작하기
+
+### 설치
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 개발 서버 실행
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+브라우저에서 [http://localhost:3000](http://localhost:3000) 을 열어보세요.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 빌드
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## 📂 프로젝트 구조
 
-To learn more about Next.js, take a look at the following resources:
+```
+2025-10-06-whack-a-mole/
+├── app/
+│   ├── layout.tsx              # 루트 레이아웃
+│   ├── page.tsx                # 메인 게임 페이지
+│   └── globals.css             # 글로벌 스타일
+├── components/
+│   ├── start-screen.tsx        # 시작 화면
+│   ├── game-board.tsx          # 게임 보드 (9개 구멍)
+│   ├── mole.tsx                # 두더지 컴포넌트
+│   ├── score-board.tsx         # 점수판
+│   ├── game-over-modal.tsx     # 게임 종료 모달
+│   └── leaderboard.tsx         # 랭킹 화면
+├── lib/
+│   ├── types.ts                # 타입 정의
+│   ├── game-logic.ts           # 게임 로직
+│   ├── storage.ts              # LocalStorage 유틸
+│   └── utils.ts                # 공통 유틸
+└── hooks/
+    ├── use-game.ts             # 게임 상태 관리 훅
+    └── use-timer.ts            # 타이머 훅
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎮 게임 방법
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **시작 화면**에서 난이도와 시간을 선택
+2. **게임 시작** 버튼 클릭
+3. 등장하는 두더지를 빠르게 클릭!
+4. 골든 두더지(⭐)를 잡으면 3배 점수
+5. 연속으로 타격하면 콤보 보너스
+6. 시간 종료 후 닉네임 입력하고 랭킹 등록
 
-## Deploy on Vercel
+## 🔧 주요 로직
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 점수 계산
+```typescript
+기본 점수 = 일반 두더지(10점) or 골든 두더지(30점)
+콤보 배율 = 1 + (현재 콤보 * 0.1) [최대 3배]
+최종 점수 = 기본 점수 * 콤보 배율
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 난이도별 설정
+- **쉬움**: 2초 노출 / 1.5초 간격
+- **보통**: 1.5초 노출 / 1.2초 간격
+- **어려움**: 1초 노출 / 0.9초 간격
+- **지옥**: 0.7초 노출 / 0.6초 간격
+
+## 📱 반응형 디자인
+
+- **Mobile**: 게임판 300x300px
+- **Tablet**: 게임판 400x400px
+- **Desktop**: 게임판 500x500px
+
+## 🚀 향후 개선 아이디어
+
+- [ ] 효과음 추가 (타격음, 배경음악)
+- [ ] 다양한 두더지 종류
+- [ ] 파워업 아이템
+- [ ] 업적 시스템
+- [ ] 멀티플레이어 모드
+- [ ] 스토리 모드
+
+## 📝 라이센스
+
+MIT
+
+---
+
+**개발 날짜**: 2025년 10월 6일  
+**개발 시간**: 3-4시간  
+**1일 1서비스 프로젝트**
